@@ -19,7 +19,7 @@ function highlight(table) {
 
       }
       else if (!row[i].cells[row[i].cells.length - 1].hasAttribute("data-available")) {
-        row[i].setAttribute('hidden', '')
+        row[i].hidden = true;
       }
 
       if (row[i].cells[k].innerHTML == 'm') {
