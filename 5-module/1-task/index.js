@@ -2,7 +2,7 @@ function hideSelf() {
   let s = document.querySelector(".hide-self-button");
 
   function hide1() {
-    s.setAttribute('hidden', '');
+    s.hidden = 'true';
   }
 
   s.addEventListener('click', hide1);
