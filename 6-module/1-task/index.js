@@ -8,6 +8,7 @@ export default class UserTable {
 
   render() {
     this.elem = document.createElement('table');
+
     this.elem.innerHTML = this.rows.map(function (item) {
       return `<tr>
       <td> ${item.name} </td>
@@ -17,10 +18,11 @@ export default class UserTable {
       <td> <button> X </button> </td>
       </tr>`
 
-    });
+    }).join('')
 
     this.elem.addEventListener('click', this.remove);
-    return this.elem;
+
+
   }
   remove(ev) {
     let target = ev.target;
