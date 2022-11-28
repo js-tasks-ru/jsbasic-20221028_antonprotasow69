@@ -4,11 +4,11 @@ export default class ProductCard {
 
   constructor(product) {
     this.product = product;
-    this.render();
+    this.render(product);
 
   }
 
-  render() {
+  render(product) {
 
     this.elem = createElement(`<div class="card">
       <div class="card__top">
@@ -23,7 +23,17 @@ export default class ProductCard {
       </div>
       </div>`)
     let onButt = this.elem.querySelector('.card__button');
-    onButt.addEventListener("click", this.addProduct);
+
+    onButt.addEventListener("click", function addProduct(event) {
+      let target = event.target;
+      let addProduct = new CustomEvent("product-add", {
+        bubbles: true,
+        detail: product.id
+      });
+      target.dispatchEvent(addProduct)
+
+
+    });
     // onButt.addEventListener("product-add", function (event) {
     //   return event.detail;
     // })
@@ -34,11 +44,7 @@ export default class ProductCard {
   addProduct() {
 
 
-    let addProduct = new CustomEvent("product-add", {
-      bubbles: true,
-      detail: this.product.id
-    });
-    document.dispatchEvent(addProduct)
+
 
     //  if (target.closest('.card__button') || target.closest('.card__button > img'))
     //this.dispatchEvent(adddProduct);
