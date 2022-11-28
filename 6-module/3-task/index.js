@@ -4,7 +4,8 @@ export default class Carousel {
   constructor(slides) {
     this.slides = slides;
     this.render(slides);
-    this.initCarousel();
+    this.initCarousel(slides);
+    this.getSlides(slides);
 
   }
 
@@ -18,60 +19,50 @@ export default class Carousel {
     <div class="carousel__arrow carousel__arrow_left">
       <img src="/assets/images/icons/angle-left-icon.svg" alt="icon">
     </div>
-
     <div class="carousel__inner">
-      <!--Верстка 1-ого слайда-->
-    <div class="carousel__slide" data-id="penang-shrimp">
-   <img src="/assets/images/carousel/${this.slides[0].image}" class="carousel__img" alt="slide">
-   <div class="carousel__caption">
-     <span class="carousel__price">€${this.slides[0].price.toFixed(2)}</span>
-     <div class="carousel__title">${this.slides[0].name}</div>
-     <button type="button" class="carousel__button">
-       <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-     </button>
-   </div>
- </div>
- <div class="carousel__slide" data-id="penang-shrimp">
-   <img src="/assets/images/carousel/${this.slides[1].image}" class="carousel__img" alt="slide">
-   <div class="carousel__caption">
-     <span class="carousel__price">€${this.slides[1].price.toFixed(2)}</span>
-     <div class="carousel__title">${this.slides[1].name}</div>
-     <button type="button" class="carousel__button">
-       <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-     </button>
-   </div>
- </div>
- <div class="carousel__slide" data-id="penang-shrimp">
-   <img src="/assets/images/carousel/${this.slides[2].image}" class="carousel__img" alt="slide">
-   <div class="carousel__caption">
-     <span class="carousel__price">€${this.slides[2].price.toFixed(2)}</span>
-     <div class="carousel__title">${this.slides[2].name}</div>
-     <button type="button" class="carousel__button">
-       <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-     </button>
-   </div>
- </div>
- <div class="carousel__slide" data-id="penang-shrimp">
-   <img src="/assets/images/carousel/${this.slides[3].image}" class="carousel__img" alt="slide">
-   <div class="carousel__caption">
-     <span class="carousel__price">€${this.slides[3].price.toFixed(2)}</span>
-     <div class="carousel__title">${this.slides[3].name}</div>
-     <button type="button" class="carousel__button">
-       <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-     </button>
-    </div>
-   </div>
-  </div>
+    ${this.getSlides(slides)}
+   </div >
  </div`);
 
+    this.elem.querySelector('.carousel__arrow_left').style.display = 'none';
 
+    let addButton = this.elem.querySelectorAll('.carousel__button');
 
+    for (let plusButton of addButton) {
 
+      plusButton.addEventListener("click", function addProd(event) {
+        let target = event.target;
+        let addProd = new CustomEvent("product-add", {
+          bubbles: true,
+          detail: target.closest('.carousel__slide').dataset.id
+        });
+
+        target.dispatchEvent(addProd);
+
+      });
+
+    }
   }
 
-  initCarousel() {
+  getSlides(slides) {
+    return slides.map((item) => {
+      return `<div class="carousel__slide" data-id=${item.id}>
+    <img src="/assets/images/carousel/${item.image}" class="carousel__img" alt="slide">
+    <div class="carousel__caption">
+      <span class="carousel__price">€${item.price.toFixed(2)}</span>
+      <div class="carousel__title">${item.name}</div>
+      <button type="button" class="carousel__button">
+        <img src="/assets/images/icons/plus-icon.svg" alt="icon">
+      </button>
+    </div>
+  </div>`}).join('');
+  }
+
+  initCarousel(slides) {
 
     let counter = 0;
+    let activeIndex = 1; // счётчик слайдов
+    let slideCount = slides.length; // находит нужное количество слайдов
 
     function slide(event) {
 
@@ -81,7 +72,6 @@ export default class Carousel {
       let arrows = document.querySelectorAll('.carousel__arrow > img');
       let width = slides[0].offsetWidth;
       let target = event.target;
-      let slideName = document.getElementsByClassName('carousel__slide');
 
       if (target != arrows[0] && target != arrows[1] && target != arrowRight
         && target != arrowLeft) {
@@ -91,33 +81,39 @@ export default class Carousel {
 
       else if (target == arrows[0] || target == arrowRight) {
 
-        counter = counter + width;
-        slides[0].style.transform = `translateX( ${'-' + counter + 'px'} )`;
-        console.log(counter)
+        counter += width;
+        slides[0].style.transform = `translateX(${'-' + counter + 'px'})`;
+        activeIndex++;
 
       }
 
       else if (target == arrows[1] || target == arrowLeft) {
 
         counter = counter - width;
-        slides[0].style.transform = `translateX( ${'-' + counter + 'px'})`;
+        slides[0].style.transform = `translateX(${'-' + counter + 'px'})`;
+        activeIndex--;
+
+      };
+
+      if (activeIndex >= slideCount) {
+        arrowRight.style.display = 'none';
 
       }
 
+      else arrowRight.style.display = '';
 
       if (counter === 0) {
         arrowLeft.style.display = 'none';
       }
+
       else arrowLeft.style.display = '';
 
     }
     this.elem.addEventListener('click', slide);
 
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelector('.carousel__arrow_left').style.display = 'none'
+
     });
-
-
 
   }
 
