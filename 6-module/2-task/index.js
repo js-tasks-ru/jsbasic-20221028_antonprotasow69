@@ -22,6 +22,7 @@ export default class ProductCard {
           </button>
       </div>
       </div>`)
+
     let onButt = this.elem.querySelector('.card__button');
 
     onButt.addEventListener("click", function addProduct(event) {
@@ -30,23 +31,11 @@ export default class ProductCard {
         bubbles: true,
         detail: product.id
       });
+
       target.dispatchEvent(addProduct)
 
-
     });
-    // onButt.addEventListener("product-add", function (event) {
-    //   return event.detail;
-    // })
 
   }
 
-
-  addProduct() {
-
-
-
-
-    //  if (target.closest('.card__button') || target.closest('.card__button > img'))
-    //this.dispatchEvent(adddProduct);
-  }
 }
