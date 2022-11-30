@@ -30,12 +30,10 @@
 
 .ribbon__arrow.ribbon__arrow_left {
   left: 0;
-  background: linear-gradient(
-    90deg,
-    var(--color-black) 25%,
-    var(--color-black) 61%,
-    rgba(31, 30, 25, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--color-black) 25%,
+      var(--color-black) 61%,
+      rgba(31, 30, 25, 0) 100%);
   padding-left: 14px;
 }
 
@@ -45,12 +43,10 @@
 
 .ribbon__arrow.ribbon__arrow_right {
   right: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(31, 30, 25, 0) 25%,
-    var(--color-black) 61%,
-    var(--color-black) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(31, 30, 25, 0) 25%,
+      var(--color-black) 61%,
+      var(--color-black) 100%);
   text-align: right;
   align-items: flex-end;
   padding-right: 14px;
