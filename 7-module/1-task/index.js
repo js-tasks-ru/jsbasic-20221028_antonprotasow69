@@ -41,15 +41,15 @@ export default class RibbonMenu {
         for (let i = 0; i < categoryRibbon.length; i++) {
           categoryRibbon[i].classList.remove('ribbon__item_active');
         }
+
         target.classList.add('ribbon__item_active');
 
-
-        let select = new CustomEvent('ribbon-select', {
+        let selectRibbCategory = new CustomEvent('ribbon-select', {
           detail: target.closest('.ribbon__item').dataset.id,
           bubbles: true
         });
 
-        target.dispatchEvent(select);
+        target.dispatchEvent(selectRibbCategory);
 
       });
     }
