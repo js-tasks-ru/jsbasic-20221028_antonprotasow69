@@ -90,14 +90,16 @@ export default class StepSlider {
     let progressDrag = this.elem.querySelector('.slider__progress');
     let sliderValue = this.elem.querySelector('.slider__value');
     let allSteps = this.elem.querySelectorAll('.slider__steps > span');
-
+    let segmentSlider = allSteps.length - 1;
     thumbDrag.addEventListener('pointerdown', (event) => {
       event.preventDefault();
 
+      thumbDrag.style.position = 'absolute';
+      thumbDrag.style.zIndex = 1000;
       let onMouseMove = (event) => {
 
         this.elem.classList.add('slider_dragging');
-        //event.preventDefault();
+        event.preventDefault();
 
         let rect = this.elem.getBoundingClientRect();
         let left = event.clientX - rect.left;
@@ -116,11 +118,10 @@ export default class StepSlider {
         thumbDrag.style.left = `${leftPercents}%`;
         progressDrag.style.width = `${leftPercents}%`;
 
-        let segmentSlider = allSteps.length - 1;
-
         let approximateValue = leftRelative * segmentSlider;
         let value = Math.round(approximateValue);
         let valuePercents = value / segmentSlider * 100;
+
         this.value = valuePercents / 100 * segmentSlider;
 
         sliderValue.innerHTML = `${this.value}`;
@@ -136,7 +137,10 @@ export default class StepSlider {
 
       document.onpointerup = () => {
 
-        this.elem.classList.remove('slider_dragging');
+        thumbDrag.style.left = `${this.value / segmentSlider * 100}%`;
+        progressDrag.style.width = `${this.value / segmentSlider * 100}%`;
+
+        this.elem.classList.remove('slider_dragging')
 
         let dragCustom = new CustomEvent('slider-change', {
           detail: this.value,
@@ -145,7 +149,8 @@ export default class StepSlider {
         this.elem.dispatchEvent(dragCustom);
 
         document.removeEventListener('pointermove', onMouseMove);
-        thumbDrag.onpointerup = null;
+
+        document.onpointerup = null;
       };
 
     });
