@@ -39,24 +39,23 @@ export default class CartIcon {
   }
 
   updatePosition() {
-    let initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+
     if (this.elem.offsetWidth && this.elem.offsetHeight) {
 
-      if (window.pageYOffset > initialTopCoord) {
-        let left = document.querySelector('.container').getBoundingClientRect().right + 20;
-        let right = document.documentElement.clientWidth - this.elem.offsetWidth - 10;
-        let leftIndent = Math.min(left, right) + 'px';
+      let left = document.querySelector('.container').getBoundingClientRect().right + 20;
+      let right = document.documentElement.clientWidth - this.elem.offsetWidth - 10;
+      let leftIndent = Math.min(left, right) + 'px';
 
-        Object.assign(this.elem.style, {
-          position: 'fixed',
-          top: '50px',
-          zIndex: 1e3,
-          right: '10px',
-          left: leftIndent
-        });
+      Object.assign(this.elem.style, {
+        position: 'fixed',
+        top: '50px',
+        zIndex: 1e3,
+        right: '10px',
+        left: leftIndent
+      });
 
-      }
-      else if (document.documentElement.clientWidth <= 767) {
+
+      if (document.documentElement.clientWidth <= 767) {
         Object.assign(this.elem.style, {
           position: '',
           top: '',
@@ -65,7 +64,7 @@ export default class CartIcon {
         });
       }
 
-      else if (window.pageYOffset < 50) {
+      if (window.pageYOffset < 50) {
         Object.assign(this.elem.style, {
           position: '',
           top: '',
