@@ -7,7 +7,6 @@ export default class ProductGrid {
     this.filters = {};
     this.renderProducts(products);
 
-
   }
 
   renderProducts(products) {
@@ -81,5 +80,5 @@ export default class ProductGrid {
     this.gridInner.innerHTML = this.selected.join('');
 
   }
-
 }
+
