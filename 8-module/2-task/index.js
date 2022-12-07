@@ -49,16 +49,16 @@ export default class ProductGrid {
       }
 
       if (this.filters.vegeterianOnly && !item.vegeterian) {
-        continue
+        continue;
 
       }
 
       if (this.filters.maxSpiciness != undefined && item.spiciness > this.filters.maxSpiciness) {
-        continue
+        continue;
       }
 
       if (this.filters.category && item.category != this.filters.category) {
-        continue
+        continue;
       }
 
       this.selected.push(`
