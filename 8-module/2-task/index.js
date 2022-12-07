@@ -5,36 +5,24 @@ export default class ProductGrid {
   constructor(products) {
     this.products = products;
     this.filters = {};
-    this.renderProducts(products);
+    this.renderProducts();
 
   }
 
-  renderProducts(products) {
+  renderProducts() {
 
     this.elem = createElement(`<div class="products-grid"></div>`);
     this.gridInner = createElement(`<div class="products-grid__inner">
   </div>`);
 
-    this.elem.appendChild(this.gridInner)
+    this.elem.appendChild(this.gridInner);
 
-    this.gridInner.innerHTML = products.map((item) => {
+    this.products.map((item) => {
 
-      return (`
-      <div class="card">
-      <div class="card__top">
-          <img src="/assets/images/products/${item.image}" class="card__image" alt="product">
-          <span class="card__price">€${item.price.toFixed(2)} </span>
-      </div>
-      <div class="card__body">
-          <div class="card__title">${item.name}</div>
-          <button type="button" class="card__button">
-              <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-          </button>
-      </div>
-      </div>
-      `)
-    }).join('');
-
+      let card = new ProductCard(item);
+      this.gridInner.append(card.elem)
+    });
+    return this.elem
   }
 
   updateFilter(filters) {
@@ -61,24 +49,15 @@ export default class ProductGrid {
         continue;
       }
 
-      this.selected.push(`
-      <div class="card">
-      <div class="card__top">
-          <img src="/assets/images/products/${item.image}" class="card__image" alt="product">
-          <span class="card__price">€${item.price.toFixed(2)} </span>
-      </div>
-      <div class="card__body">
-          <div class="card__title">${item.name}</div>
-          <button type="button" class="card__button">
-              <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-          </button>
-      </div>
-      </div>
-      `);
+      this.selected.push(
+        item
+      );
     }
-
-    this.gridInner.innerHTML = this.selected.join('');
-
+    this.gridInner.innerHTML = '';
+    this.selected.map(item => {
+      const card = new ProductCard(item);
+      this.gridInner.append(card.elem)
+    })
   }
 }
 
