@@ -142,17 +142,20 @@ export default class Cart {
   renderModal() {
 
     let modalCart = new Modal();
-    modalCart.setTitle('Your Order');
-    modalCart.open();
+
     this.modal = modalCart;
+    this.modal.setTitle("Your order");
+
     let modalBody = createElement('<div>');
+
     this.cartItems.map(item => {
       modalBody.append(this.renderProduct(item.product, item.count))
     });
+
     let orderForm = this.renderOrderForm();
     this.orderForm = orderForm;
     modalBody.append(this.renderOrderForm());
-    modalCart.setBody(modalBody)
+    modalCart.setBody(modalBody);
     this.modalBody = document.querySelector('.modal__body');
 
     modalBody.addEventListener('click', (event) => {
@@ -177,11 +180,12 @@ export default class Cart {
 
     });
 
-    modalBody.addEventListener('submit', (event) => {
+    this.modalBody.querySelector('.cart-form').addEventListener('submit', (event) => {
 
       this.onSubmit(event)
 
     });
+    this.modal.open();
   }
 
   onProductUpdate(cartItem) {
@@ -225,8 +229,9 @@ export default class Cart {
       body: formOrder
     }).then(response => {
       if (response.ok) {
-        this.cartItems.splice(0, this.cartItems.length)
-        this.modal.setTitle('Success!'),
+        this.cartItems.splice(0, this.cartItems.length),
+
+          this.modal.setTitle('Success!'),
           this.modal.setBody(createElement(`<div class="modal__body-inner">
     <p>
       Order successful! Your order is being cooked :) <br>
